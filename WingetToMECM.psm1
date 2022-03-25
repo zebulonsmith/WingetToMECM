@@ -372,12 +372,12 @@ Function Get-WingetMECMApplicationParameters {
     #>
 
     $AppParams.InstallCommand = @'
-echo start-process -filepath "$((Get-AppxPackage -AllUsers -Name Microsoft.DesktopAppInstaller).installlocation)\winget.exe"
+cmd /c echo start-process -wait -filepath "$((Get-AppxPackage -AllUsers -Name Microsoft.DesktopAppInstaller).installlocation)\winget.exe"
 '@
     $AppParams.InstallCommand += " -argumentlist 'install --id $PackageID --silent --accept-package-agreements --accept-source-agreements'  | powershell.exe -command -"
 
     $AppParams.UninstallCommand = @'
-echo start-process -filepath "$((Get-AppxPackage -AllUsers -Name Microsoft.DesktopAppInstaller).installlocation)\winget.exe"
+cmd /c echo start-process -wait -filepath "$((Get-AppxPackage -AllUsers -Name Microsoft.DesktopAppInstaller).installlocation)\winget.exe"
 '@
     $AppParams.UninstallCommand += " -argumentlist 'uninstall --id $PackageID --silent --accept-source-agreements' | powershell.exe -command -"
 
