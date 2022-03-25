@@ -15,9 +15,9 @@ In either condition, the Deployment Type may need to be  be configured to 'Allow
 ith the program installation.' This is because not all packages respect the --silent flag during
 install/uninstall operations.
 
-To determine which method to use, run 'winget install [packageid]' as a user without administrative priviledges.
+To determine which method to use, run 'winget install [packageid]' as a user without administrative privileges.
 If the package's installer prompts for administrative elevation, set the Deployment Type to run as system. When
-elevation is not needed to complete the install, the Deployment Type must be configured to run as the curren user.
+elevation is not needed to complete the install, the Deployment Type must be configured to run as the current user.
 
 The Get-WingetMECMApplicationParameters function in this module will output an object that contains three
 properties that can be used when creating an Application's Deployment Type.
