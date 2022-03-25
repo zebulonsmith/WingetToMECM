@@ -6,8 +6,18 @@ applications with MECM is very possible in its current state. The biggest challe
 detection rule for a deployment type as winget does not have an easy way to tell us if a package is
 installed or needs updating.
 
-Another challenge is that there are some hoops to jump through when executing Winget as the local system
-account.
+Winget is not designed to be executed by the local system account. Therefore, Deployment Types must be
+configured to run as the current user or local system as appropriate for a given package.
+For packages that winget would normally install system-wide, configure the Deployment Type to run as System.
+For packages that are intended to be installed in the context of the current user, configure the deployment
+type to run as the current user.
+In either condition, the Deployment Type may need to be  be configured to 'Allow users to view and interact
+ith the program installation.' This is because not all packages respect the --silent flag during
+install/uninstall operations.
+
+To determine which method to use, run 'winget install [packageid]' as a user without administrative priviledges.
+If the package's installer prompts for administrative elevation, set the Deployment Type to run as system. When
+elevation is not needed to complete the install, the Deployment Type must be configured to run as the curren user.
 
 The Get-WingetMECMApplicationParameters function in this module will output an object that contains three
 properties that can be used when creating an Application's Deployment Type.
@@ -271,8 +281,18 @@ Function Get-WingetInstalledApps {
 This function will output an object that contains an install command line, uninstall command line and detection rule that
 can be used to build an Application Deployment Type in MECM.
 
-When using the output of this function to create a Deployment Type, be sure to "Allow users to view and interact with the progarm installation"
-on the "User Experience" tab. Not all winget packages fully respect the silent installation options and may present dialogs.
+Winget is not designed to be executed by the local system account. Therefore, Deployment Types must be
+configured to run as the current user or local system as appropriate for a given package.
+For packages that winget would normally install system-wide, configure the Deployment Type to run as System.
+For packages that are intended to be installed in the context of the current user, configure the deployment
+type to run as the current user.
+In either condition, the Deployment Type may need to be  be configured to 'Allow users to view and interact
+ith the program installation.' This is because not all packages respect the --silent flag during
+install/uninstall operations.
+
+To determine which method to use, run 'winget install [packageid]' as a user without administrative priviledges.
+If the package's installer prompts for administrative elevation, set the Deployment Type to run as system. When
+elevation is not needed to complete the install, the Deployment Type must be configured to run as the curren user.
 
 .PARAMETER PackageID
 The PackageID for the winget package to install. Use Winget Search to find a PackageID to install.
