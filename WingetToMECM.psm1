@@ -1,6 +1,8 @@
 <#######################################################################################################
 This module is intended to be a proof of concept. Showing the viability of Winget integration with MECM.
 
+**This module requires Administrative privileges to work properly.**
+
 It's not intended for use in a production environment. The goal is to show that using Winget to deploy
 applications with MECM is very possible in its current state. The biggest challenge is creating a
 detection rule for a deployment type as winget does not have an easy way to tell us if a package is
