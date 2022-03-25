@@ -13,7 +13,8 @@ configured to run as the current user or local system as appropriate for a given
 For packages that winget would normally install system-wide, configure the Deployment Type to run as System.
 For packages that are intended to be installed in the context of the current user, configure the deployment
 type to run as the current user.
-In either condition, the Deployment Type may need to be  be configured to 'Allow users to view and interact
+
+In either condition, the Deployment Type may need to be configured to 'Allow users to view and interact
 with the program installation.' This is because not all packages respect the --silent flag during
 install/uninstall operations.
 
