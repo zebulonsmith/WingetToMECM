@@ -10,7 +10,12 @@ Another challenge is that there are some hoops to jump through when executing Wi
 account.
 
 The Get-WingetMECMApplicationParameters function in this module will output an object that contains three
-properties
+properties that can be used when creating an Application's Deployment Type.
+
+InstallCommand - winget command to install the selected package
+UninstallCommand - winget command to uninstall the selected package
+DetectionRuleScript - The string in this property contains the code for a Powershell Script detection rule
+that will detect the presence of the selected package
 
 #######################################################################################################>
 
@@ -338,10 +343,23 @@ Function Get-WingetMECMApplicationParameters {
 
 
     #region Command Lines
-    $wingetPath = Get-Wingetpath
-    $AppParams.InstallCommand = "`"$($wingetPath)`" install --id $PackageID --silent --accept-package-agreements --accept-source-agreements"
+    <#
+    We have to assume that the target device might have a different version of winget than what is on the one running this function.
+    Install and Uninstall commands should find the path to the currently installed version of winget.
+    #>
+
+    $AppParams.InstallCommand = @'
+powershell.exe -Command {& "$((Get-AppxPackage -AllUsers -Name Microsoft.DesktopAppInstaller).installlocation)\winget.exe"
+'@
+    $AppParams.InstallCommand += "install --id $PackageID --silent --accept-package-agreements --accept-source-agreements}"
 
     $AppParams.UninstallCommand = "`"$($wingetPath)`" uninstall --id $PackageID --silent --accept-source-agreements"
+
+    $AppParams.UninstallCommand = @'
+    powershell.exe -Command {& "$((Get-AppxPackage -AllUsers -Name Microsoft.DesktopAppInstaller).installlocation)\winget.exe"
+'@
+    $AppParams.UninstallCommand += " uninstall --id $PackageID --silent --accept-source-agreements}"
+
     #endregion
 
     Return $AppParams
